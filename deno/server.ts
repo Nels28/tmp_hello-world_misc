@@ -6,6 +6,6 @@ async function handler(req: Request) {
 
 const server = serve({ hostname: "0.0.0.0", port: 8080 });
 
-for await (const req of server) {
+for await (const req of server.listen()) {
   req.respond(await handler(req));
 }
