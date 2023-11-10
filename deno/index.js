@@ -1,11 +1,7 @@
-import {serve} from 'https://deno.land/std/http/mod.ts';
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { parse } from 'https://deno.land/std@0.168.0/flags/mod.ts';
 
-const hostname = '0.0.0.0';
-const port = 8080;
+const { args } = Deno;
+const argPort = Deno.env.get("PORT") ? Number(Deno.env.get("PORT")) : 8000;
 
-const server = serve({hostname, port}); // specify 0.0.0.0 as hostname (all addresses)
-console.log(`Server running on port ${port}`);
-
-for await (const req of server) {
-  req.respond({body: 'hello world'});
-}
+serve({ hostname: "0.0.0.0", port: argPort }, (_req) => new Response("Hello, world"));
