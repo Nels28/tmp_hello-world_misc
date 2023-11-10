@@ -1,0 +1,7 @@
+name: hello_world_server
+description: A simple web server that returns 'Hello World'.
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  dart: any
