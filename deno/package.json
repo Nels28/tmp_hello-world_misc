@@ -1,0 +1,9 @@
+{
+    "name": "deno starter",
+    "scripts": {
+      "start": "deno run --allow-all index.js"
+    },
+    "devDependencies": {
+      "deno-bin": "^1.28.2"
+    }
+  }
