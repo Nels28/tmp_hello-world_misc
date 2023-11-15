@@ -5,7 +5,7 @@
 lib.zig.mkDerivation {
   pname = "hello-zig";
   version = "1.0";
-  src = ./hello.zig;  # Adjust this line
+  src = ./.;
 
   nativeBuildInputs = buildInputs;
 
