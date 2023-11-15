@@ -1,16 +1,21 @@
 const std = @import("std");
+const net = @import("std").net;
 
-pub fn main() !void {
-    const allocator = std.testing.allocator;
-    var address = try std.net.Address.parseIp4("0.0.0.0", 8080, allocator);
-    const listener = try std.net.tcpListen(allocator, address);
+pub fn main() void {
+    const address = try net.AddressIp4{ .addr = 0, .port = 8080 };
+    const listener = try net.listenTcp4(address, net.ListenBacklog.multiple(10));
 
     while (true) {
-        const accept = try listener.accept(allocator);
-        const writer = accept.writer();
-        const buffer = try allocator.alloc(u8, 12);
-        const n = std.mem.copy(buffer, "Hello, World!\n");
+        const result = try listener.accept();
+        const connection = try result.connection();
+        const buffer = try connection.reader().readUntilDelimiter(' ');
 
-        try writer.write(buffer[0..n]);
+        try connection.writer().writeAll("HTTP/1.1 200 OK\r\n");
+        try connection.writer().writeAll("Content-Type: text/plain\r\n");
+        try connection.writer().writeAll("\r\n");
+        try connection.writer().writeAll("Hello, World!\r\n");
+
+        try connection.writer().flush();
+        connection.close();
     }
 }
