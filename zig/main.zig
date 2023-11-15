@@ -1,21 +1,28 @@
 const std = @import("std");
-const net = @import("std").net;
+const http = @import("std").http;
 
 pub fn main() void {
-    const address = try net.AddressIp4{ .addr = 0, .port = 8080 };
-    const listener = try net.listenTcp4(address, net.ListenBacklog.multiple(10));
+    const allocator = std.heap.page_allocator;
+    const server = http.Server.init(allocator, .{});
 
-    while (true) {
-        const result = try listener.accept();
-        const connection = try result.connection();
-        const buffer = try connection.reader().readUntilDelimiter(' ');
+    const result = server.serve(.{
+        .handler = handler,
+        .port = 8080,
+    });
 
-        try connection.writer().writeAll("HTTP/1.1 200 OK\r\n");
-        try connection.writer().writeAll("Content-Type: text/plain\r\n");
-        try connection.writer().writeAll("\r\n");
-        try connection.writer().writeAll("Hello, World!\r\n");
-
-        try connection.writer().flush();
-        connection.close();
+    switch (result) {
+        HttpError.Ok => {},
+        HttpError.AllocFailed => |err| {
+            std.debug.print("{}\n", .{err});
+        },
+        HttpError.BindFailed => |err| {
+            std.debug.print("{}\n", .{err});
+        },
     }
+}
+
+pub fn handler(request: *http.Request, response: *http.Response) void {
+    response.status_code = 200;
+    response.content_type = "text/plain";
+    response.write("Hello, World!\n");
 }
