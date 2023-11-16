@@ -7,7 +7,7 @@ pub fn build(b: *Builder) void {
     exe.setTarget(.{
         .architecture = .x86_64,
         .os = .Linux,
-        .environment = .Native,
     });
     exe.install();
 }
+
