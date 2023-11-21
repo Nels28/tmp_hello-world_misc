@@ -1,0 +1,7 @@
+resolver: lts-17.5
+
+packages:
+- .
+
+extra-deps:
+- nixpkgs:{ version = "..."; };
