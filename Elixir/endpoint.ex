@@ -1,3 +1,0 @@
-# config :hello_phoenix, HelloPhoenixWeb.Endpoint,
-#   ...
-#   url: [host: "localhost"],
