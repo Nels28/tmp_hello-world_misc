@@ -21,4 +21,3 @@ defmodule HelloWorldWebServer.MixProject do
     []
   end
 end
-
