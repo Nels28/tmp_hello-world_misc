@@ -12,4 +12,3 @@ defmodule HelloWorldWebServer do
     send_resp(conn, 404, "Not Found\n")
   end
 end
-
