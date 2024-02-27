@@ -1,0 +1,10 @@
+# compiled output
+/_build/
+
+# dependencies
+/deps/
+
+# build artifacts and logs
+/ebin/
+/erl_crash.dump
+
